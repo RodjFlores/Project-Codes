@@ -1,33 +1,58 @@
-import {Component, ViewChild} from 'angular2/core';
+import { Component, ViewChild } from '@angular/core';
+
+
 
 @Component({
-  selector: 'my-app',
-  template: `{{title}}<p>
-  <select #select (change)="change($event.target.options)">
-    <option *ngFor="#item of myOptions" [value]="item.price">
-      {{item.name}}
-    </option>
-  </select>
-  
-  <p>{{selectedValues}}`
+  templateUrl: '<ion-row>
+
+            <ion-input name="amt" placeholder="###" type="number" [(ngModel)]="amt"></ion-input>
+        
+            <ion-col col-3>{{code}}</ion-col>
+       
+            <ion-col col-5>
+                    <select  [(ngModel)]="val" (ngModelChange)="toNumber()">
+                        <option *ngFor="let i of items" [ngValue]="i.id"> {{i.name}} </option>
+                    </select>                  
+            </ion-col>
+        
+            <ion-col col-2>\${{price*amt}}</ion-col>
+        </ion-row>'
 })
-export class AppComponent {
-  @ViewChild('select') selectElRef;
-  title = "Angular 2 beta - multi select list ";
-  myOptions = [ 
-    {price: 100, name: "PM - CR"}, 
-    {price: 200, name: "PM - DR"},
-    {price: 15, name: "Cable Reel"},
-    {price: 2000, name: "Full Day Labor"}];
-  selectedValues = ['nope'];
+export class BasicPage {
+    @ViewChild('select') selectElRef;
   
-  constructor() {  }
+  public tap: number = 0;
+  public words: string = "THIS IS SOOO BADDD";
+  public word:any = document.getElementById("testing");
+  public myString: string = this.word;
+
+
+  items = [ 
+    {id: 0, val: 50, name: "PM - CR", code:"123-456a"},
+    {id:1, val:45, name: "PM - DR", code:"567-124y"},
+    {id:2, val: 700, name: "Cable Reel", code:"876-123t"},
+    {id:3, val: 2500, name: "Full Day Labor", code:"234-867a"}];
+
+  val:number;
+
+
+
+      
+  price:number = 0;
+  code = "--";
   
+  constructor() {    
+    
+  }  
   
-  change(options) {
-    this.selectedValues = Array.apply(null,options)
-      .filter(option => option.selected)
-      .map(option => option.value)
+  toNumber(){
+    this.code=this.items[this.val].code;
+    this.price=this.items[this.val].val;
   }
   
+
+  
+
+
+
 }
