@@ -1,0 +1,33 @@
+import {Component, ViewChild} from 'angular2/core';
+
+@Component({
+  selector: 'my-app',
+  template: `{{title}}<p>
+  <select #select (change)="change($event.target.options)">
+    <option *ngFor="#item of myOptions" [value]="item.price">
+      {{item.name}}
+    </option>
+  </select>
+  
+  <p>{{selectedValues}}`
+})
+export class AppComponent {
+  @ViewChild('select') selectElRef;
+  title = "Angular 2 beta - multi select list ";
+  myOptions = [ 
+    {price: 100, name: "PM - CR"}, 
+    {price: 200, name: "PM - DR"},
+    {price: 15, name: "Cable Reel"},
+    {price: 2000, name: "Full Day Labor"}];
+  selectedValues = ['nope'];
+  
+  constructor() {  }
+  
+  
+  change(options) {
+    this.selectedValues = Array.apply(null,options)
+      .filter(option => option.selected)
+      .map(option => option.value)
+  }
+  
+}
